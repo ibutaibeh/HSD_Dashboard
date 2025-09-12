@@ -14,18 +14,31 @@
         <nav>
             <div class="nav-wrapper light-blue darken-4 ">
                 <ul>
-                    <li><a href="#" class="left">HSD Dashboard</a></li>
+                    <li><a href="{% url 'home' %}" class="left">HSD Dashboard</a></li>
                 </ul>
                 <ul class="right">
-                    <li><a href="#">About</a></li>
+
+               {% if user.is_authenticated and user.profile.get_role_display == 'admin' %}
+              <li><form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="{% url 'signup' %}">Create Account</a></li>
+                <button type="submit">Log Out</button>
+              </form></li>
+
+              {% elif user.is_authenticated and user.profile.get_role_display == 'viewer' %}
+               <li><form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <li><a href="/profile">Profile</a></li>
+                <button type="submit">Log Out</button>
+              </form></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Log In</a></li>
+          {% endif %}
 
                 </ul>
 
             </div>
-
-
-
-
         </nav>
 
         
