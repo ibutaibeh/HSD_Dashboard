@@ -1,10 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-    <div>
-        <h1>This is the profile page for {{user.username}}</h1>
-        <p>Role: {{user.profile.get_role_display.upper }}</p>
+<div class="center-align section">
         {% load static %}
-        <img src="{% static user.profile.avatar|cut:'main_app/static/'%}" width="100px" height="100px" alt="avatar">
+        <img src="{% static user.profile.avatar|cut:'main_app/static/' %}" 
+         width="250" height="250" 
+         alt="avatar"
+         class="circle  z-depth-3">
+</div>
+<div  class="container">
+    {% if user.is_authenticated%}
+    {% if messages %}
+    {% for msg in messages %}
+    <p class="container center-align teal accent-1">{{msg}}</p>
+    {% endfor%}
+    {% endif %}
+    <p>{{profile_form.messages}}</p>
+    <form action="" method="post" enctype="multipart/form-data" class="card-panel">
+        {% csrf_token %}
+        <table>
+            {{profile_form.as_table}}
+        </table>  
+        <br><br>
+    <div>
+        <a class="btn waves-effect red darken-1" href="{% url 'change_password' %}">Change Password</a>
     </div>
+        <div class="section">
+        <button class="btn waves-effect waves-light blue" type="submit">Save Changes</button>
+        <button class="btn grey lighten-1" type="reset">Reset</button>
+        </div>
+    </form>
 
+          {% else %}
+            <li><a href="{% url 'login' %}">Log In</a></li>
+          {% endif %}
+    
+</div>
+<script>
+  // Init Materialize select dropdowns (for Department & Role)
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems);
+  });
+</script>
 {% endblock content %}

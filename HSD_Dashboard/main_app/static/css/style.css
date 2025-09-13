@@ -17,3 +17,7 @@ footer.page-footer{
     display: flex;
     justify-content: space-between;
 }
+
+form ul{
+    list-style-type: none;
+}

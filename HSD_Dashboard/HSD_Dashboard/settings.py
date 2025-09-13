@@ -32,9 +32,10 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+#i added the .apps.MainAppConfig so the signal will be activated and not the default django function 
 
 INSTALLED_APPS = [
-    'main_app',
+    'main_app.apps.MainAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
