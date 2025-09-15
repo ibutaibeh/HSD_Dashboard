@@ -14,9 +14,6 @@ ROLES=(
     ('B','viewer'),
 )
 
-
-
-
 class Profile(models.Model):
     user= models.OneToOneField(User, on_delete=models.CASCADE)
     avatar= models.ImageField(upload_to='main_app/static/uploads',default='main_app/static/images/DefaultAvatar.jpg')
@@ -37,3 +34,21 @@ class Profile(models.Model):
             new_img= (250,250)
             img.thumbnail(new_img)
             img.save(self.avatar.path)
+
+
+#Survey Opreations Model
+# class SurveyOperations(models.Model):
+#     STATUSES=(
+#         ('P','planned'),
+#         ('O','ongoing'),
+#         ('C','completed'),
+#         ('X','cancelled'),
+#     )
+#     survey_name= models.CharField(max_length=100)
+#     start_date= models.DateField()
+#     end_date= models.DateField()
+#     status= models.CharField(max_length=1,choices=STATUSES, default=STATUSES[2][0])
+
+
+
+
