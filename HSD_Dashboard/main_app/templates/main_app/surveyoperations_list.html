@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Survey Operations List</h1>
+{% for survey in surveyoperations_list %}
+  <a href="{% url 'survey_detail' survey.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ survey.survey_name }}</span>
+            <span class="card-content">{{ survey.get_status_display.upper }}</span>
+
+        </div>
+    </div>
+  </a>
+{% endfor %}
+{% endblock %}

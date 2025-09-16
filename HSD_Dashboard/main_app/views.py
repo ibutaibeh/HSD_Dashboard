@@ -3,11 +3,14 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import UpdateProfileForm
+from .forms import UpdateProfileForm, UpdateSurveyOperationsForm
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import SurveyOperations
 
 # Create your views here.
 
@@ -48,3 +51,22 @@ class ChangePasswordView(SuccessMessageMixin,PasswordChangeView):
     template_name= 'change_password.html'
     success_message= 'Successfully Changed Your Password'
     success_url= reverse_lazy('profile')
+
+#CBVs for Survey Operations 
+class SurveyOperationsList(LoginRequiredMixin,ListView):
+    model=SurveyOperations
+
+class SurveyOperationsDetail(LoginRequiredMixin,DetailView):
+    model=SurveyOperations
+
+class SurveyOperationsCreate(LoginRequiredMixin,CreateView):
+    model=SurveyOperations
+    fields= '__all__'
+
+class SurveyOperationsUpdate(LoginRequiredMixin,UpdateView):
+    model=SurveyOperations
+    fields='__all__'
+
+class SurveyOperationsDelete(LoginRequiredMixin,DeleteView):
+    model=SurveyOperations
+    success_url='/survey_operations/'
