@@ -8,7 +8,5 @@ class UpdateProfileForm(forms.ModelForm):
         model = Profile
         fields =["avatar", "cpr", "occupation", "email", "department"]
 
-class UpdateSurveyOperationsForm(forms.ModelForm):
-    class Meta:
-        model= SurveyOperations
-        fields= '__all__'
+
+

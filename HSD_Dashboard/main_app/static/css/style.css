@@ -21,3 +21,7 @@ footer.page-footer{
 form ul{
     list-style-type: none;
 }
+
+#map {
+    height: 600px;
+  }

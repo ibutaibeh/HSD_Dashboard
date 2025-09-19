@@ -3,14 +3,14 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import UpdateProfileForm, UpdateSurveyOperationsForm
+from .forms import UpdateProfileForm
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import SurveyOperations
+from .models import SurveyOperations, SurveyTypes, Agencies, SurveyAttributes
 
 # Create your views here.
 
@@ -70,3 +70,65 @@ class SurveyOperationsUpdate(LoginRequiredMixin,UpdateView):
 class SurveyOperationsDelete(LoginRequiredMixin,DeleteView):
     model=SurveyOperations
     success_url='/survey_operations/'
+
+
+
+#CBVs for Survey Types
+class SurveyTypesList(LoginRequiredMixin,ListView):
+    model=SurveyTypes
+
+class SurveyTypesDetail(LoginRequiredMixin,DetailView):
+    model=SurveyTypes
+
+class SurveyTypesCreate(LoginRequiredMixin,CreateView):
+    model=SurveyTypes
+    fields= '__all__'
+
+class SurveyTypesUpdate(LoginRequiredMixin,UpdateView):
+    model=SurveyTypes
+    fields='__all__'
+
+class SurveyTypesDelete(LoginRequiredMixin,DeleteView):
+    model=SurveyTypes
+    success_url='/survey_types/'
+
+
+#CBVs for Agencies 
+class AgenciesList(LoginRequiredMixin,ListView):
+    model=Agencies
+
+class AgenciesDetail(LoginRequiredMixin,DetailView):
+    model=Agencies
+
+class AgenciesCreate(LoginRequiredMixin,CreateView):
+    model=Agencies
+    fields= '__all__'
+
+class AgenciesUpdate(LoginRequiredMixin,UpdateView):
+    model=Agencies
+    fields='__all__'
+
+class AgenciesDelete(LoginRequiredMixin,DeleteView):
+    model=Agencies
+    success_url='/agencies/'
+
+#CBVs for Survey Attributes
+class SurveyAttributesList(LoginRequiredMixin,ListView):
+    model=SurveyAttributes
+    ordering= ['survey_type__name','name']
+
+
+class SurveyAttributesDetail(LoginRequiredMixin,DetailView):
+    model=SurveyAttributes
+
+class SurveyAttributesCreate(LoginRequiredMixin,CreateView):
+    model=SurveyAttributes
+    fields= '__all__'
+
+class SurveyAttributesUpdate(LoginRequiredMixin,UpdateView):
+    model=SurveyAttributes
+    fields='__all__'
+
+class SurveyAttributesDelete(LoginRequiredMixin,DeleteView):
+    model=SurveyAttributes
+    success_url='/survey_attributes/'

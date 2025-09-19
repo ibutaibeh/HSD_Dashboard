@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Agency List</h1>
+{% for agency in agencies_list %}
+  <a href="{% url 'agency_detail' agency.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ agency.name }}</span>
+
+        </div>
+    </div>
+  </a>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Survey Attributes List</h1>
+
+{% regroup surveyattributes_list by survey_type as grouped_attributes %}
+
+{% for group in grouped_attributes %}
+  <h4>{{ group.grouper.name }} ({{ group.grouper.code }})</h4>
+
+  <div class="row">
+    {% for attribute in group.list %}
+      <div class="col s12 m6 l4">
+        <a href="{% url 'attribute_detail' attribute.id %}">
+          <div class="card hoverable">
+            <div class="card-content">
+              <span class="card-title">{{ attribute.name }}</span>
+              {% if attribute.unit %}
+                <p><strong>Unit:</strong> {{ attribute.unit }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+
+{% endblock %}

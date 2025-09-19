@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="{%static 'css/style.css'%}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="{% static 'js/leaflet.js' %}"></script>
+    <script src="{% static 'js/forms.js' %}"></script>
     <title>HSD Dashboard</title>
 </head>
 <body>
@@ -24,6 +30,12 @@
                 <li><a href="/profile">Profile</a></li>
                  <li><a href="{% url 'survey_index'%}">Survey Operations</a></li>
                  <li><a href="{% url 'survey_create'%}">Add Survey Operations</a></li>
+                 <li><a href="{% url 'type_index' %}">Survey Types</a></li>
+                 <li><a href="{% url 'type_create' %}">Add Survey Types</a></li>
+                 <li><a href="{% url 'agency_index' %}">Agencies List</a></li>
+                 <li><a href="{% url 'agency_create' %}">Add Agency</a></li>
+                 <li><a href="{% url 'attribute_index' %}">Survey Attribute List</a></li>
+                 <li><a href="{% url 'attribute_create' %}">Add New Attribute</a></li>
                 <li><a href="{% url 'signup' %}">Create Account</a></li>
                 <button type="submit">Log Out</button>
               </form></li>

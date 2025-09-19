@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Survey Types Details</h1>
+<div class="row">
+  <div class="col s6 col-offset-3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ surveytypes.name }}</span>
+
+      </div>
+      <div class="card-action">
+        <a href="{% url 'type_update' surveytypes.id %}">Edit</a>
+        <a href="{% url 'type_delete' surveytypes.id %}">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
