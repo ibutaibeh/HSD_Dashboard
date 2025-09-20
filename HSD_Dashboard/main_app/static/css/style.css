@@ -25,3 +25,8 @@ form ul{
 #map {
     height: 600px;
   }
+.dropdown-content {
+  width: auto;
+  min-width: 200px;
+}
+

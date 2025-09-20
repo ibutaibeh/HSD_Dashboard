@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{%static 'css/style.css'%}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -17,10 +18,22 @@
 </head>
 <body>
     <header class="navbar-fixed" >
+        <ul id="View" class="dropdown-content">
+            <li><a href="{% url 'survey_index'%}">Survey Operations</a></li>
+            <li><a href="{% url 'type_index' %}">Survey Types</a></li>
+            <li><a href="{% url 'agency_index' %}">Agencies</a></li>
+            <li><a href="{% url 'attribute_index' %}">Survey Attribute</a></li>
+        </ul>
+        <ul id="Add" class="dropdown-content">
+            <li><a href="{% url 'survey_create'%}">Survey Operations</a></li>
+            <li><a href="{% url 'type_create' %}">Survey Types</a></li>
+            <li><a href="{% url 'agency_create' %}">Agency</a></li>
+            <li><a href="{% url 'attribute_create' %}">New Attribute</a></li>
+        </ul>
         <nav>
             <div class="nav-wrapper light-blue darken-4 ">
                 <ul>
-                    <li><a href="{% url 'home' %}" class="left">HSD Dashboard</a></li>
+                    <li><a href="{% url 'home' %}" class="left">Home</a></li>
                 </ul>
                 <ul class="right">
 
@@ -28,15 +41,9 @@
               <li><form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <li><a href="/profile">Profile</a></li>
-                 <li><a href="{% url 'survey_index'%}">Survey Operations</a></li>
-                 <li><a href="{% url 'survey_create'%}">Add Survey Operations</a></li>
-                 <li><a href="{% url 'type_index' %}">Survey Types</a></li>
-                 <li><a href="{% url 'type_create' %}">Add Survey Types</a></li>
-                 <li><a href="{% url 'agency_index' %}">Agencies List</a></li>
-                 <li><a href="{% url 'agency_create' %}">Add Agency</a></li>
-                 <li><a href="{% url 'attribute_index' %}">Survey Attribute List</a></li>
-                 <li><a href="{% url 'attribute_create' %}">Add New Attribute</a></li>
                 <li><a href="{% url 'signup' %}">Create Account</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="View">View<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="Add">Add<i class="material-icons right">arrow_drop_down</i></a></li>
                 <button type="submit">Log Out</button>
               </form></li>
 
@@ -68,5 +75,15 @@
     <footer class="page-footer light-blue darken-4">
         <div class="right">All Rights Reserved, &copy; 2025 HSD Dashboard &nbsp;</div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', ()=> {
+        var elems = document.querySelectorAll('.dropdown-trigger');
+        M.Dropdown.init(elems,{
+            aligment: 'left',
+            coverTrigger: false,
+        });
+});
+    </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .mixins import AdminOnlyMixin
 from .forms import UpdateProfileForm
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
@@ -74,61 +75,61 @@ class SurveyOperationsDelete(LoginRequiredMixin,DeleteView):
 
 
 #CBVs for Survey Types
-class SurveyTypesList(LoginRequiredMixin,ListView):
+class SurveyTypesList(LoginRequiredMixin,AdminOnlyMixin,ListView):
     model=SurveyTypes
 
-class SurveyTypesDetail(LoginRequiredMixin,DetailView):
+class SurveyTypesDetail(LoginRequiredMixin,AdminOnlyMixin,DetailView):
     model=SurveyTypes
 
-class SurveyTypesCreate(LoginRequiredMixin,CreateView):
+class SurveyTypesCreate(LoginRequiredMixin,AdminOnlyMixin,CreateView):
     model=SurveyTypes
     fields= '__all__'
 
-class SurveyTypesUpdate(LoginRequiredMixin,UpdateView):
+class SurveyTypesUpdate(LoginRequiredMixin,AdminOnlyMixin,UpdateView):
     model=SurveyTypes
     fields='__all__'
 
-class SurveyTypesDelete(LoginRequiredMixin,DeleteView):
+class SurveyTypesDelete(LoginRequiredMixin,AdminOnlyMixin,DeleteView):
     model=SurveyTypes
     success_url='/survey_types/'
 
 
 #CBVs for Agencies 
-class AgenciesList(LoginRequiredMixin,ListView):
+class AgenciesList(LoginRequiredMixin,AdminOnlyMixin,ListView):
     model=Agencies
 
-class AgenciesDetail(LoginRequiredMixin,DetailView):
+class AgenciesDetail(LoginRequiredMixin,AdminOnlyMixin,DetailView):
     model=Agencies
 
-class AgenciesCreate(LoginRequiredMixin,CreateView):
+class AgenciesCreate(LoginRequiredMixin,AdminOnlyMixin,CreateView):
     model=Agencies
     fields= '__all__'
 
-class AgenciesUpdate(LoginRequiredMixin,UpdateView):
+class AgenciesUpdate(LoginRequiredMixin,AdminOnlyMixin,UpdateView):
     model=Agencies
     fields='__all__'
 
-class AgenciesDelete(LoginRequiredMixin,DeleteView):
+class AgenciesDelete(LoginRequiredMixin,AdminOnlyMixin,DeleteView):
     model=Agencies
     success_url='/agencies/'
 
 #CBVs for Survey Attributes
-class SurveyAttributesList(LoginRequiredMixin,ListView):
+class SurveyAttributesList(LoginRequiredMixin,AdminOnlyMixin,ListView):
     model=SurveyAttributes
     ordering= ['survey_type__name','name']
 
 
-class SurveyAttributesDetail(LoginRequiredMixin,DetailView):
+class SurveyAttributesDetail(LoginRequiredMixin,AdminOnlyMixin,DetailView):
     model=SurveyAttributes
 
-class SurveyAttributesCreate(LoginRequiredMixin,CreateView):
+class SurveyAttributesCreate(LoginRequiredMixin,AdminOnlyMixin,CreateView):
     model=SurveyAttributes
     fields= '__all__'
 
-class SurveyAttributesUpdate(LoginRequiredMixin,UpdateView):
+class SurveyAttributesUpdate(LoginRequiredMixin,AdminOnlyMixin,UpdateView):
     model=SurveyAttributes
     fields='__all__'
 
-class SurveyAttributesDelete(LoginRequiredMixin,DeleteView):
+class SurveyAttributesDelete(LoginRequiredMixin,AdminOnlyMixin,DeleteView):
     model=SurveyAttributes
     success_url='/survey_attributes/'
