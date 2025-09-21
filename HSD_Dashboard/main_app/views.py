@@ -169,7 +169,7 @@ def dataimport_entry(request, pk):
         formset= DataImportFormSet(request.POST, queryset=dataimports)
         if formset.is_valid():
             formset.save()
-            messages.success(request,"Data imported successfully!")
+            #messages.success(request,"Data imported successfully!")
             return redirect("survey_detail",pk=survey.pk)
     else:
         formset= DataImportFormSet(queryset=dataimports)
