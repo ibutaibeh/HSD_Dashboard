@@ -2,9 +2,9 @@
 {% block content %}
 <h1>Survey Attributes List</h1>
 
-{% regroup surveyattributes_list by survey_type as grouped_attributes %}
+{% regroup surveyattributes_list by survey_type as grouped_surveyattributes %}
 
-{% for group in grouped_attributes %}
+{% for group in grouped_surveyattributes %}
   <h4>{{ group.grouper.name }} ({{ group.grouper.code }})</h4>
 
   <div class="row">

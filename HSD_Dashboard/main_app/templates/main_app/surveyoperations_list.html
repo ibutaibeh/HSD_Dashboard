@@ -7,6 +7,9 @@
         <div class="card-content">
             <span class="card-title">{{ survey.survey_name }}</span>
             <span class="card-content">{{ survey.get_status_display.upper }}</span>
+        <div class="card-action">
+        <a href="{% url 'dataimport_entry' survey.id %}">Import Data</a>
+      </div>
 
         </div>
     </div>

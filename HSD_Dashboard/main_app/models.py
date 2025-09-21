@@ -5,7 +5,6 @@ from PIL import Image
 from django.urls import reverse
 
 # Create your models here.
-
 #Agencies Model
 class Agencies(models.Model):
     TYPES= (
@@ -21,8 +20,6 @@ class Agencies(models.Model):
         return self.name
     def get_absolute_url(self):
         return reverse('agency_detail', kwargs={'pk':self.id})
-
-
 #-----------------------------------------------------------------------------
 #Survey Type Model
 class SurveyTypes(models.Model):
@@ -32,12 +29,11 @@ class SurveyTypes(models.Model):
     def __str__(self):
         return self.name
     def get_absolute_url(self):
-        return reverse('type_detail', kwargs={'pk':self.id})
-    
+        return reverse('type_detail', kwargs={'pk':self.id})  
 #-----------------------------------------------------------------------------
 # Survey Attributes
 class SurveyAttributes(models.Model):
-    survey_type= models.ForeignKey(SurveyTypes,on_delete=models.PROTECT, related_name='attributes')
+    survey_type= models.ForeignKey(SurveyTypes,on_delete=models.DO_NOTHING)
     name= models.CharField(max_length=100)
     unit= models.CharField(max_length=50, blank=True, null=True)
 
@@ -45,17 +41,6 @@ class SurveyAttributes(models.Model):
         return f"{self.survey_type.code} - {self.name}"
     def get_absolute_url(self):
         return reverse('attribute_detail', kwargs={'pk':self.id})
-#-----------------------------------------------------------------------------
-
-#Survey Attributes values 
-class SurveyOperationsAttributes(models.Model):
-    survey_operation= models.ForeignKey('SurveyOperations',on_delete=models.PROTECT, related_name='attribute_values')
-    survey_attribute= models.ForeignKey(SurveyAttributes,on_delete=models.PROTECT)
-    value = models.CharField(max_length=300)
-
-    def __str__(self):
-        return f"{self.survey_operation.survey_name} - {self.survey_attribute.name}: {self.value} {self.survey_attribute.unit or ''}"
-
 #-----------------------------------------------------------------------------
 class Profile(models.Model):
     DEPARTMENTS=(
@@ -72,13 +57,10 @@ class Profile(models.Model):
     occupation=models.CharField(max_length=120, null=True)
     email=models.EmailField(max_length=100, null=True)
     department=models.CharField(max_length=2, choices=DEPARTMENTS,default=DEPARTMENTS[0][0])
-    role=models.CharField(max_length=1, choices=ROLES,default=ROLES[1][0])
-    
-    
+    role=models.CharField(max_length=1, choices=ROLES,default=ROLES[1][0]) 
 
     def __str__(self):
         return f"{self.user.username} {self.get_role_display()} {self.get_department_display()}"
-    
     def save(self, *args, **kwargs):
         super().save()
         img= Image.open(self.avatar.path)
@@ -95,17 +77,16 @@ class SurveyOperations(models.Model):
         ('C','completed'),
         ('X','cancelled'),
     )
-
     survey_name= models.CharField(max_length=100)
     start_date= models.DateField()
     end_date= models.DateField()
-    survey_type= models.ForeignKey(SurveyTypes,on_delete=models.PROTECT)
+    survey_type= models.ForeignKey(SurveyTypes,on_delete=models.CASCADE)
     status= models.CharField(max_length=1,choices=STATUSES)
     location= models.PolygonField() #srid=32639 issue store and retrieve
     surveyor= models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="as_surveyor")
     data_processor= models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="as_data_processor")
     qc_processor= models.ForeignKey(User,null=True, on_delete=models.SET_NULL,related_name="as_qc_processor")
-    agency= models.ForeignKey(Agencies,on_delete=models.PROTECT)
+    agency= models.ForeignKey(Agencies,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.survey_name
@@ -114,6 +95,14 @@ class SurveyOperations(models.Model):
         return reverse('survey_detail', kwargs={'pk':self.id})
 #-----------------------------------------------------------------------------    
 
+#Data Import - Survey Attributes values 
+class DataImport(models.Model):
+    survey_operation= models.ForeignKey(SurveyOperations,on_delete=models.CASCADE)
+    survey_attribute= models.ForeignKey(SurveyAttributes,on_delete=models.CASCADE)
+    value = models.CharField(max_length=300)
+
+    def __str__(self):
+        return f"{self.survey_operation.survey_name} - {self.survey_attribute.name}: {self.value} {self.survey_attribute.unit or ''}"
 
 
 

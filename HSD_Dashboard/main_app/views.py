@@ -1,17 +1,19 @@
+from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import AdminOnlyMixin
-from .forms import UpdateProfileForm
+from .forms import DataImportForm, UpdateProfileForm
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import SurveyOperations, SurveyTypes, Agencies, SurveyAttributes
+from .models import SurveyOperations, SurveyTypes, Agencies, SurveyAttributes, DataImport
+from django.contrib import messages
 
 # Create your views here.
 
@@ -118,7 +120,6 @@ class SurveyAttributesList(LoginRequiredMixin,AdminOnlyMixin,ListView):
     model=SurveyAttributes
     ordering= ['survey_type__name','name']
 
-
 class SurveyAttributesDetail(LoginRequiredMixin,AdminOnlyMixin,DetailView):
     model=SurveyAttributes
 
@@ -133,3 +134,45 @@ class SurveyAttributesUpdate(LoginRequiredMixin,AdminOnlyMixin,UpdateView):
 class SurveyAttributesDelete(LoginRequiredMixin,AdminOnlyMixin,DeleteView):
     model=SurveyAttributes
     success_url='/survey_attributes/'
+
+#CBVs for Data import - Survey Operations attributes
+class DataImportList(LoginRequiredMixin,ListView):
+    model=DataImport
+
+class DataImportDetail(LoginRequiredMixin,DetailView):
+    model=DataImport
+
+class DataImportDelete(LoginRequiredMixin,DeleteView):
+    model=DataImport
+    success_url='/dataimport/'
+
+@login_required
+def dataimport_entry(request, pk):
+    #getting the Survey with pk
+    survey= SurveyOperations.objects.get(pk=pk)
+    #set up the formset without extra empty row at the end
+    DataImportFormSet= modelformset_factory(DataImport,form= DataImportForm, extra=0)
+
+    #if Dataimport exist,
+    dataimports= DataImport.objects.filter(survey_operation=survey)
+
+    # if it doesnt exist: create the form
+    if not dataimports.exists():
+        objs=[]
+        attributes= SurveyAttributes.objects.filter(survey_type= survey.survey_type)
+        for attribute in attributes:
+            objs.append(DataImport(survey_operation=survey, survey_attribute=attribute))
+        DataImport.objects.bulk_create(objs)
+        dataimports=DataImport.objects.filter(survey_operation=survey)
+
+    if request.method == "POST":
+        formset= DataImportFormSet(request.POST, queryset=dataimports)
+        if formset.is_valid():
+            formset.save()
+            messages.success(request,"Data imported successfully!")
+            return redirect("survey_detail",pk=survey.pk)
+    else:
+        formset= DataImportFormSet(queryset=dataimports)
+
+    return render(request, "main_app/dataimport_formset.html",{"formset":formset, "survey":survey})
+

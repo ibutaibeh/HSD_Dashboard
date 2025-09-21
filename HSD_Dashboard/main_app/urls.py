@@ -15,6 +15,11 @@ urlpatterns=[
     path('survey_operations/create/',views.SurveyOperationsCreate.as_view(),name='survey_create'),
     path('survey_operations/<int:pk>/update/',views.SurveyOperationsUpdate.as_view(),name='survey_update'),
     path('survey_operations/<int:pk>/delete/',views.SurveyOperationsDelete.as_view(),name='survey_delete'),
+    #Survey Operation Attributes Entry
+    path('dataimport/',views.DataImportList.as_view(), name='dataimport_index'),
+    path('dataimport/<int:pk>/',views.DataImportDetail.as_view(),name='dataimport_detail'),
+    path('dataimport/<int:pk>/delete/',views.DataImportDelete.as_view(),name='dataimport_delete'),
+    path('survey_operations/<int:pk>/dataimport/',views.dataimport_entry, name='dataimport_entry'),
     #Survey Types DashBoard
     path('survey_types/',views.SurveyTypesList.as_view(), name='type_index'),
     path('survey_types/<int:pk>/',views.SurveyTypesDetail.as_view(),name='type_detail'),
