@@ -1,9 +1,121 @@
 {% extends 'base.html'%}
+{% load static %}
+
 {%block content%}
-<div class="card" style="display: flex; flex-direction: column; align-items: center;">
-    <img src="../static/images/Logo (4).png" width="250px" height="250px" alt="logo image">
-<h1>Welcome To HSD Dashboard</h1>
+<div class="row">
+    <div class="col s12">
+        <div class="card-panel center-align" style="margin-top: 2rem; padding: 3rem;">
+            <div class="row">
+                <div class="col s12 m6 offset-m3">
+                    <img src="{% static 'images/Logo (2).png' %}" 
+                         width="200px" 
+                         height="200px" 
+                         alt="HSD Dashboard Logo"
+                         class="responsive-img circle hoverable"
+                         style="border: 4px solid #0277bd; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                </div>
+            </div>
+            
+            <h3 class="light-blue-text text-darken-4" style="margin-top: 2rem; font-weight: 300;">
+                Welcome To HSD Dashboard
+            </h3>
+            
+            <p class="grey-text text-darken-2 flow-text" style="margin: 2rem 0;">
+                Your comprehensive solution for survey operations management
+            </p>
+            
+            {% if user.is_authenticated %}
+                <div class="row" style="margin-top: 3rem;">
+                    <div class="col s12 m10 offset-m1">
+                        <div class="row">
+                            {% if user.profile.get_role_display == 'admin' %}
+                                <div class="col s12 m6 l3">
+                                    <a href="{% url 'survey_index' %}" class="btn-large waves-effect waves-light light-blue darken-2 hoverable" style="width: 100%; margin-bottom: 1rem;">
+                                        <i class="material-icons left">view_list</i>
+                                        Survey Operations
+                                    </a>
+                                </div>
+                                <div class="col s12 m6 l3">
+                                    <a href="{% url 'survey_create' %}" class="btn-large waves-effect waves-light green darken-2 hoverable" style="width: 100%; margin-bottom: 1rem;">
+                                        <i class="material-icons left">add</i>
+                                        Add Survey
+                                    </a>
+                                </div>
+                                <div class="col s12 m6 l3">
+                                    <a href="{% url 'type_index' %}" class="btn-large waves-effect waves-light orange darken-2 hoverable" style="width: 100%; margin-bottom: 1rem;">
+                                        <i class="material-icons left">category</i>
+                                        Survey Types
+                                    </a>
+                                </div>
+                                <div class="col s12 m6 l3">
+                                    <a href="{% url 'agency_index' %}" class="btn-large waves-effect waves-light purple darken-2 hoverable" style="width: 100%; margin-bottom: 1rem;">
+                                        <i class="material-icons left">business</i>
+                                        Agencies
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="col s12 m6 offset-m3">
+                                    <a href="{% url 'survey_index' %}" class="btn-large waves-effect waves-light light-blue darken-2 hoverable" style="width: 100%; margin-bottom: 1rem;">
+                                        <i class="material-icons left">view_list</i>
+                                        View Survey Operations
+                                    </a>
+                                </div>
+                                <div class="col s12 m6 offset-m3">
+                                    <a href="{% url 'survey_create' %}" class="btn-large waves-effect waves-light green darken-2 hoverable" style="width: 100%;">
+                                        <i class="material-icons left">add</i>
+                                        Add Survey Operation
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="divider" style="margin: 3rem 0 2rem 0;"></div>
+                
+                <div class="row">
+                    <div class="col s12 m8 offset-m2">
+                        <h5 class="light-blue-text text-darken-3">Quick Stats</h5>
+                        <div class="row">
+                            <div class="col s12 m4">
+                                <div class="card-panel light-blue lighten-5 center-align">
+                                    <i class="material-icons large light-blue-text text-darken-2">assignment</i>
+                                    <h6 class="grey-text text-darken-2">Total Surveys</h6>
+                                    <h4 class="light-blue-text text-darken-4">--</h4>
+                                </div>
+                            </div>
+                            <div class="col s12 m4">
+                                <div class="card-panel green lighten-5 center-align">
+                                    <i class="material-icons large green-text text-darken-2">check_circle</i>
+                                    <h6 class="grey-text text-darken-2">Active Surveys</h6>
+                                    <h4 class="green-text text-darken-4">--</h4>
+                                </div>
+                            </div>
+                            <div class="col s12 m4">
+                                <div class="card-panel orange lighten-5 center-align">
+                                    <i class="material-icons large orange-text text-darken-2">business</i>
+                                    <h6 class="grey-text text-darken-2">Total Agencies</h6>
+                                    <h4 class="orange-text text-darken-4">--</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row" style="margin-top: 3rem;">
+                    <div class="col s12 m6 offset-m3">
+                        <a href="{% url 'login' %}" class="btn-large waves-effect waves-light light-blue darken-2 hoverable" style="width: 100%;">
+                            <i class="material-icons left">login</i>
+                            Login to Get Started
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
+<style>
 
+</style>
 {% endblock %}
