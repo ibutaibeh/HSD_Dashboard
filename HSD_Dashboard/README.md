@@ -1,6 +1,6 @@
 # HSD Dashboard
 
-![HSD Dashboard Logo](main_app/static/images/Logo%20(4).png)
+![HSD Dashboard Logo](main_app/static/images/banner.png)
 
 ## What is HSD Dashboard ?
 HSD Dashboard is a GeoDjango/PostGIS-powered application designed for the Hydrographic Survey Directorate in Bahrain. It provides a centralized platform to manage hydrographic survey operations, store and organize bathymetric and geospatial data, and monitor project progress. The dashboard integrates interactive mapping tools (Leaflet.js with OpenStreetMap and Esri layers) to visualize survey areas, polygons, and datasets in real time. With structured models for agencies, survey types, attributes, and operations, it enables streamlined data management, transparent tracking of activities, and efficient reporting across all marine survey projects.
@@ -19,7 +19,6 @@ Managing hydrographic survey operations involves handling large volumes of geosp
 ## *References*
 + [Project GitHub Repo ](https://github.com/ibutaibeh/HSD_Dashboard)
 + [Project GitHub Trello](https://trello.com/b/TmGRmD7a/hsd-dashboard)
-+ [Project Deploy]()
 
 ## What is Next?
 - **Projects Dashboard** – High-level overview of all ongoing and completed survey projects.  

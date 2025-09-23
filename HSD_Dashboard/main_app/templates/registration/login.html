@@ -1,9 +1,92 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<h1>Log In</h1>
-<form method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" class="btn" value="login">
-</form>
+<div class="row">
+    <div class="col s12">
+        <div class="card-panel center-align" style="margin-top: 2rem; padding: 3rem;">
+            <div class="row">
+                <div class="col s12 m6 offset-m3">
+                    <img src="{% static 'images/Logo (2).png' %}" 
+                         width="150px" 
+                         height="150px" 
+                         alt="HSD Dashboard Logo"
+                         class="responsive-img circle hoverable"
+                         style="border: 4px solid #0277bd; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                </div>
+            </div>
+            
+            <h3 class="light-blue-text text-darken-4" style="margin-top: 2rem; font-weight: 300;">
+                Log In
+            </h3>
+            
+            <p class="grey-text text-darken-2 flow-text" style="margin: 2rem 0;">
+                Sign in to access your HSD Dashboard
+            </p>
+            
+            {% if form.errors %}
+                <div class="row" style="margin: 2rem 0;">
+                    <div class="col s12 m8 offset-m2">
+                        <div class="card-panel red lighten-4 center-align">
+                            <i class="material-icons left red-text">error</i>
+                            <span class="red-text text-darken-2">
+                                Please check your username and password.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="row" style="margin-top: 3rem;">
+                <div class="col s12 m6 offset-m3">
+                    <div class="card-panel" style="padding: 2rem;">
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col s12">
+                                    <h5 class="light-blue-text text-darken-3" style="margin-bottom: 2rem;">
+                                        <i class="material-icons left">login</i>
+                                        Sign In
+                                    </h5>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col s12">
+                                    <table class="responsive-table">
+                                        {{ form.as_table }}
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="divider" style="margin: 2rem 0;"></div>
+                            
+                            <div class="row">
+                                <div class="col s12">
+                                    <button class="btn-large waves-effect waves-light light-blue darken-2 hoverable" 
+                                            type="submit" 
+                                            style="width: 100%; margin-bottom: 1rem;">
+                                        <i class="material-icons left">login</i>
+                                        Log In
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider" style="margin: 3rem 0 2rem 0;"></div>
+            
+            <div class="row">
+                <div class="col s12">
+                    <p class="grey-text text-darken-1">
+                        Need help accessing your account? Contact your system administrator.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

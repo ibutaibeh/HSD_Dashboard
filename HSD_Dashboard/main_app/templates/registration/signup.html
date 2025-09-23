@@ -1,15 +1,85 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<h1>Create Account</h1>
-{% if error_message %}
-  <p class="red-text">
-  {{ error_message }}
-</p>{% endif %}
-{% if user.is_authenticated and user.profile.role == 'A' %}
-<form method="post" action="{% url 'signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" class="btn" value="Create Account">
-</form>
-{% endif %}
+<div class="row">
+    <div class="col s12">
+        <div class="card-panel center-align" style="margin-top: 2rem; padding: 3rem;">
+            <div class="row">
+                <div class="col s12">
+                    <i class="material-icons large light-blue-text text-darken-2" style="font-size: 4rem;">person_add</i>
+                </div>
+            </div>
+            
+            <h3 class="light-blue-text text-darken-4" style="margin-top: 2rem; font-weight: 300;">
+                Create Account
+            </h3>
+            
+            <p class="grey-text text-darken-2 flow-text" style="margin: 2rem 0;">
+                Add a new user to the HSD Dashboard system
+            </p>
+            
+            {% if error_message %}
+                <div class="row" style="margin: 2rem 0;">
+                    <div class="col s12 m8 offset-m2">
+                        <div class="card-panel red lighten-4 center-align">
+                            <i class="material-icons left red-text">error</i>
+                            <span class="red-text text-darken-2">{{ error_message }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if user.is_authenticated and user.profile.role == 'A' %}
+                <div class="row" style="margin-top: 3rem;">
+                    <div class="col s12 m8 offset-m2">
+                        <div class="card-panel" style="padding: 2rem;">
+                            <form method="post" action="{% url 'signup' %}">
+                                {% csrf_token %}
+                                
+                                <div class="row">
+                                    <div class="col s12">
+                                        <h5 class="light-blue-text text-darken-3" style="margin-bottom: 2rem;">
+                                            <i class="material-icons left">account_circle</i>
+                                            User Information
+                                        </h5>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col s12">
+                                        <table class="responsive-table">
+                                            {{ form.as_table }}
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <div class="divider" style="margin: 2rem 0;"></div>
+                                
+                                <div class="row">
+                                    <div class="col s12 m6">
+                                        <button class="btn-large waves-effect waves-light green darken-2 hoverable" 
+                                                type="submit" 
+                                                style="width: 100%; margin-bottom: 1rem;">
+                                            <i class="material-icons left">person_add</i>
+                                            Create Account
+                                        </button>
+                                    </div>
+                                    <div class="col s12 m6">
+                                        <a href="{% url 'home' %}" 
+                                           class="btn-large waves-effect waves-light grey darken-1 hoverable" 
+                                           style="width: 100%; margin-bottom: 1rem;">
+                                            <i class="material-icons left">arrow_back</i>
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

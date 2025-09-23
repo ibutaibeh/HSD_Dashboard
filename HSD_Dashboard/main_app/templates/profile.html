@@ -1,38 +1,140 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="center-align section">
-        {% load static %}
-        <img src="{% static user.profile.avatar|cut:'main_app/static/' %}" 
-         width="250" height="250" 
-         alt="avatar"
-         class="circle  z-depth-3">
-</div>
-<div  class="container">
-    {% if user.is_authenticated%}
-    {% if messages %}
-    {% for msg in messages %}
-    <p class="container center-align teal accent-1">{{msg}}</p>
-    {% endfor%}
-    {% endif %}
-    <p>{{profile_form.messages}}</p>
-    <form action="" method="post" enctype="multipart/form-data" class="card-panel">
-        {% csrf_token %}
-        <table>
-            {{profile_form.as_table}}
-        </table>  
-        <br><br>
-    <div>
-        <a class="btn waves-effect red darken-1" href="{% url 'change_password' %}">Change Password</a>
-    </div>
-        <div class="section">
-        <button class="btn waves-effect waves-light blue" type="submit">Save Changes</button>
-        <button class="btn grey lighten-1" type="reset">Reset</button>
-        </div>
-    </form>
+{% extends 'base.html' %}
+{% load static %}
 
-          {% else %}
-            <li><a href="{% url 'login' %}">Log In</a></li>
-          {% endif %}
-    
+{% block content %}
+<div class="row">
+    <div class="col s12">
+        <div class="card-panel center-align" style="margin-top: 2rem; padding: 3rem;">
+            <div class="row">
+                <div class="col s12 m6 offset-m3">
+                    <img src="{% static user.profile.avatar|cut:'main_app/static/' %}" 
+                         width="200px" 
+                         height="200px" 
+                         alt="Profile Avatar"
+                         class="responsive-img circle hoverable"
+                         style="border: 4px solid #0277bd; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                </div>
+            </div>
+            
+            <h3 class="light-blue-text text-darken-4" style="margin-top: 2rem; font-weight: 300;">
+                Profile Settings
+            </h3>
+            
+            <p class="grey-text text-darken-2 flow-text" style="margin: 2rem 0;">
+                Manage your account information and preferences
+            </p>
+            
+            {% if user.is_authenticated %}
+                {% if messages %}
+                    <div class="row" style="margin: 2rem 0;">
+                        <div class="col s12 m8 offset-m2">
+                            {% for msg in messages %}
+                                <div class="card-panel teal lighten-4 center-align">
+                                    <i class="material-icons left">info</i>
+                                    <span class="teal-text text-darken-4">{{ msg }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="row" style="margin-top: 3rem;">
+                    <div class="col s12 m8 offset-m2">
+                        <div class="card-panel" style="padding: 2rem;">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                
+                                <div class="row">
+                                    <div class="col s12">
+                                        <h5 class="light-blue-text text-darken-3" style="margin-bottom: 2rem;">
+                                            <i class="material-icons left">person</i>
+                                            Account Information
+                                        </h5>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col s12">
+                                        <table class="responsive-table">
+                                            {{ profile_form.as_table }}
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <div class="divider" style="margin: 2rem 0;"></div>
+                                
+                                <div class="row">
+                                    <div class="col s12 m4">
+                                        <button class="btn-large waves-effect waves-light green darken-2 hoverable" 
+                                                type="submit" 
+                                                style="width: 100%; margin-bottom: 1rem;">
+                                            <i class="material-icons left">save</i>
+                                            Save Changes
+                                        </button>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <a href="{% url 'change_password' %}" 
+                                           class="btn-large waves-effect waves-light orange darken-2 hoverable" 
+                                           style="width: 100%; margin-bottom: 1rem;">
+                                            <i class="material-icons left">lock</i>
+                                            Password
+                                        </a>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <button class="btn-large waves-effect waves-light grey lighten-1 grey-text text-darken-3 hoverable" 
+                                                type="reset" 
+                                                style="width: 100%; margin-bottom: 1rem;">
+                                            <i class="material-icons left">refresh</i>
+                                            Reset Form
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="divider" style="margin: 3rem 0 2rem 0;"></div>
+                
+                <div class="row">
+                    <div class="col s12 m8 offset-m2">
+                        <h5 class="light-blue-text text-darken-3">Account Overview</h5>
+                        <div class="row">
+                            <div class="col s12 m4">
+                                <div class="card-panel light-blue lighten-5 center-align">
+                                    <i class="material-icons large light-blue-text text-darken-2">person</i>
+                                    <h6 class="grey-text text-darken-2">Username</h6>
+                                    <h6 class="light-blue-text text-darken-4">{{ user.username }}</h6>
+                                </div>
+                            </div>
+                            <div class="col s12 m4">
+                                <div class="card-panel green lighten-5 center-align">
+                                    <i class="material-icons large green-text text-darken-2">email</i>
+                                    <h6 class="grey-text text-darken-2">Email</h6>
+                                    <h6 class="green-text text-darken-4">{{ user.email|default:"Not set" }}</h6>
+                                </div>
+                            </div>
+                            <div class="col s12 m4">
+                                <div class="card-panel orange lighten-5 center-align">
+                                    <i class="material-icons large orange-text text-darken-2">security</i>
+                                    <h6 class="grey-text text-darken-2">Role</h6>
+                                    <h6 class="orange-text text-darken-4">{{ user.profile.get_role_display|upper|default:"User" }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row" style="margin-top: 3rem;">
+                    <div class="col s12 m6 offset-m3">
+                        <a href="{% url 'login' %}" class="btn-large waves-effect waves-light light-blue darken-2 hoverable" style="width: 100%;">
+                            <i class="material-icons left">login</i>
+                            Login to Access Profile
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
-{% endblock content %}
+{% endblock %}
