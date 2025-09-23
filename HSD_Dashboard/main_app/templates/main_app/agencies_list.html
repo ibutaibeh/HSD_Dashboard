@@ -1,14 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Agency List</h1>
-{% for agency in agencies_list %}
-  <a href="{% url 'agency_detail' agency.id %}">
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title">{{ agency.name }}</span>
 
+<div class="row">
+  <div class="col s12">
+    <h4 class="light-blue-text text-darken-4">
+      <i class="material-icons left">business</i>Agencies
+    </h4>
+    <p class="grey-text">Manage survey agencies</p>
+  </div>
+</div>
+
+<div class="row">
+  {% for agency in agencies_list %}
+  <div class="col s12">
+    <div class="card-panel white hoverable">
+      <div class="row valign-wrapper" style="margin-bottom: 0;">
+        <div class="col s8">
+          <h5 class="black-text" style="margin-top: 0;">
+            <i class="material-icons left">business</i>{{ agency.name }}
+          </h5>
         </div>
+        <div class="col s4 right-align">
+          <a href="{% url 'agency_detail' agency.id %}" class="btn light-blue darken-4 waves-effect waves-light">
+            <i class="material-icons left">visibility</i>View
+          </a>
+          <a href="{% url 'agency_update' agency.id %}" class="btn light-blue waves-effect waves-light">
+            <i class="material-icons left">edit</i>Edit
+          </a>
+          <a href="{% url 'agency_delete' agency.id %}" class="btn red waves-effect waves-light">
+            <i class="material-icons left">delete</i>Delete
+          </a>
+        </div>
+      </div>
     </div>
-  </a>
-{% endfor %}
+  </div>
+  {% empty %}
+  <div class="col s12">
+    <div class="card-panel grey lighten-4 center-align">
+      <i class="material-icons large grey-text">business</i>
+      <h5 class="grey-text">No Agencies Found</h5>
+      <p class="grey-text">Create your first agency to get started.</p>
+      {% if user.is_authenticated and user.profile.get_role_display == 'admin' %}
+      <a href="{% url 'agency_create' %}" class="btn waves-effect waves-light light-blue darken-4">
+        <i class="material-icons left">add</i>Create Agency
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
 {% endblock %}

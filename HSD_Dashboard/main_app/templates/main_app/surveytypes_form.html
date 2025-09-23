@@ -1,22 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="row">
+    <div class="col s12">
+        {% if object %}
+            <h1 class="light-blue-text text-darken-4" style="margin-bottom: 10px; font-weight: 300;">
+                <i class="material-icons left medium">edit</i>Edit Survey Type: <span class="teal-text">{{ object.name }}</span>
+            </h1>
+        {% else %}
+            <h1 class="light-blue-text text-darken-4" style="margin-bottom: 10px; font-weight: 300;">
+                <i class="material-icons left medium">add_box</i>Add Survey Type
+            </h1>
+        {% endif %}
+        <div class="divider" style="margin: 20px 0;"></div>
+    </div>
+</div>
 
-{% if object %}
-  <h1>Edit <span class="teal-text">{{ object.name }}</span></h1>
-{% else %}
-  <h1>Add Survey Type</h1>
-{% endif %}
-
-<div class="card">
-  <div class="card-content">
-    <form action="" method="post">
-      {% csrf_token %}
-      <div>
-        {{form.as_p}}
-      </div>
-      <input type="submit" value="Submit!" class="btn">
-    </form>
-  </div>
-  </div>
+<div class="row">
+    <div class="col s12 m8 offset-m2 l6 offset-l3">
+        <div class="card" style="box-shadow: 0 4px 6px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12);">
+            <div class="card-content">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div style="margin-bottom: 20px;">
+                        {{ form.as_p }}
+                    </div>
+                    
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: right;">
+                        <button type="submit" class="btn light-blue darken-4 waves-effect waves-light" style="margin-left: 10px;">
+                            <i class="material-icons left">save</i>
+                            {% if object %}Update{% else %}Create{% endif %} Survey Type
+                        </button>
+                        <a href="{% url 'type_index' %}" class="btn grey lighten-1 waves-effect waves-light" style="margin-left: 10px;">
+                            <i class="material-icons left">cancel</i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

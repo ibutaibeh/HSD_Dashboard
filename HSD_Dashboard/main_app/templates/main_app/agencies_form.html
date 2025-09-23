@@ -1,22 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% if object %}
-  <h1>Edit <span class="teal-text">{{ object.name }}</span></h1>
-{% else %}
-  <h1>Add Agency</h1>
-{% endif %}
-
-<div class="card">
-  <div class="card-content">
-    <form action="" method="post">
-      {% csrf_token %}
-      <div>
-        {{form.as_p}}
-      </div>
-      <input type="submit" value="Submit!" class="btn">
-    </form>
-  </div>
+<div class="row">
+  <div class="col s12">
+    {% if object %}
+      <h4 class="light-blue-text text-darken-4">
+        <i class="material-icons left">edit</i>Edit Agency
+      </h4>
+      <p class="grey-text">Editing: <strong class="teal-text">{{ object.name }}</strong></p>
+    {% else %}
+      <h4 class="light-blue-text text-darken-4">
+        <i class="material-icons left">add</i>Add Agency
+      </h4>
+      <p class="grey-text">Create a new agency</p>
+    {% endif %}
   </div>
 </div>
+
+<div class="row">
+  <div class="col s12 m8 offset-m2">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title light-blue-text text-darken-4">
+          <i class="material-icons left">business</i>Agency Details
+        </span>
+        
+        <form action="" method="post">
+          {% csrf_token %}
+          <div>
+            {{form.as_p}}
+          </div>
+          
+          <div class="center-align" style="margin-top: 20px;">
+            <button type="submit" class="btn waves-effect waves-light light-blue darken-4">
+              <i class="material-icons left">save</i>
+              {% if object %}Update{% else %}Create{% endif %} Agency
+            </button>
+            <a href="{% url 'agency_index' %}" class="btn grey lighten-1 waves-effect waves-light">
+              <i class="material-icons left">cancel</i>Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

@@ -1,19 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Survey Types Details</h1>
 <div class="row">
-  <div class="col s6 col-offset-3">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">{{ surveytypes.name }}</span>
-
-      </div>
-      <div class="card-action">
-        <a href="{% url 'type_update' surveytypes.id %}">Edit</a>
-        <a href="{% url 'type_delete' surveytypes.id %}">Delete</a>
-      </div>
+    <div class="col s12">
+        <h1 class="light-blue-text text-darken-4">
+            <i class="material-icons left medium">info</i>Survey Type Details
+        </h1>
+        <div class="divider" style="margin: 20px 0;"></div>
     </div>
-  </div>
 </div>
 
+<div class="row">
+    <div class="col s12 m8 offset-m2 l6 offset-l3">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title light-blue-text text-darken-4" style="font-size: 1.8rem; margin-bottom: 15px;">
+                    <i class="material-icons left" style="margin-right: 8px;">label</i>{{ surveytypes.name }}
+                </span>
+                
+                {% if surveytypes.code %}
+                <div style="margin: 15px 0;">
+                    <p class="grey-text text-darken-1" style="margin: 8px 0; font-size: 1rem;">
+                        <i class="material-icons tiny" style="vertical-align: middle; margin-right: 8px;">code</i>
+                        <strong>Code:</strong> {{ surveytypes.code }}
+                    </p>
+                </div>
+                {% endif %}
+
+                {% if surveytypes.description %}
+                <div style="margin: 15px 0;">
+                    <p class="grey-text text-darken-1" style="margin: 8px 0; font-size: 1rem;">
+                        <i class="material-icons tiny" style="vertical-align: middle; margin-right: 8px;">description</i>
+                        <strong>Description:</strong> {{ surveytypes.description }}
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-action">
+                <a href="{% url 'type_update' surveytypes.id %}" class="btn light-blue darken-4 waves-effect waves-light" style="margin-right: 10px;">
+                    <i class="material-icons left">edit</i>Edit
+                </a>
+                <a href="{% url 'type_delete' surveytypes.id %}" class="btn red darken-1 waves-effect waves-light" style="margin-right: 10px;">
+                    <i class="material-icons left">delete</i>Delete
+                </a>
+                <a href="{% url 'type_index' %}" class="btn-flat grey-text waves-effect waves-light">
+                    <i class="material-icons left">arrow_back</i>Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

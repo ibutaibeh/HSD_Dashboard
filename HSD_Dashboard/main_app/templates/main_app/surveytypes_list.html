@@ -1,15 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Survey Types List</h1>
-{% for type in surveytypes_list %}
-  <a href="{% url 'type_detail' type.id %}">
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title">{{ type.name }}</span>
-            <span class="card-content">{{ type.code }}</span>
+<div class="row">
+    <div class="col s12">
+        <h1 class="light-blue-text text-darken-4">
+            <i class="material-icons left medium">category</i>Survey Types
+        </h1>
+        <div class="divider"></div>
+    </div>
+</div>
 
+<div class="row">
+    {% for type in surveytypes_list %}
+    <div class="col s12 m6 l4">
+        <a href="{% url 'type_detail' type.id %}">
+            <div class="card hoverable">
+            <div class="card-content">
+                <span class="card-title light-blue-text text-darken-4">
+                    <i class="material-icons left">label</i>{{ type.name }}
+                </span>
+                <p class="grey-text text-darken-1">
+                    <i class="material-icons tiny">code</i>
+                    <strong>Code:</strong> {{ type.code }}
+                </p>
+            </div>
+            <div class="card-action">
+                <span class="light-blue-text">
+                    View Details <i class="material-icons right tiny">arrow_forward</i>
+                </span>
+            </div>
+        </div>
+    </a>
+</div>
+{% empty %}
+<div class="col s12">
+    <div class="card-panel grey lighten-4">
+        <div class="center-align">
+            <i class="material-icons large grey-text">category</i>
+            <p class="grey-text">No survey types found.</p>
+            {% if user.is_authenticated and user.profile.get_role_display == 'admin' %}
+            <a href="{% url 'type_create' %}" class="btn light-blue darken-4 waves-effect waves-light">
+                <i class="material-icons left">add</i>Add First Survey Type
+            </a>
+            {% endif %}
         </div>
     </div>
-  </a>
+</div>
 {% endfor %}
+</div>
+
 {% endblock %}

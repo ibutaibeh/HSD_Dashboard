@@ -1,10 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1>Delete Type</h1>
-  <h4>Are you sure you want to delete <span class="teal-text">{{ object.name }}</span>?</h4>
-  <form action="" method="POST">
-    {% csrf_token %}
-    <input type="submit" value="Yes - Delete!" class="btn">
-    <a href="{% url 'type_detail' object.pk %}">Cancel</a>
-  </form>
+<div class="row">
+    <div class="col s12">
+        <h1 class="light-blue-text text-darken-4" style="margin-bottom: 10px; font-weight: 300;">
+            <i class="material-icons left medium">delete_forever</i>Delete Survey Type
+        </h1>
+        <div class="divider" style="margin: 20px 0;"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m8 offset-m2 l6 offset-l3">
+        <div class="card" style="box-shadow: 0 4px 6px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12);">
+            <div class="card-content center-align">
+                <i class="material-icons large red-text text-darken-2" style="margin-bottom: 20px;">warning</i>
+                
+                <h4 class="grey-text text-darken-2" style="margin-bottom: 25px; font-weight: 400;">
+                    Are you sure you want to delete 
+                    <span class="teal-text" style="font-weight: 500;">"{{ object.name }}"</span>?
+                </h4>
+                
+                <p class="grey-text" style="margin-bottom: 30px;">
+                    This action cannot be undone. The survey type will be permanently removed from the system.
+                </p>
+                
+                <form action="" method="POST" style="display: inline-block;">
+                    {% csrf_token %}
+                    <div style="margin-top: 20px;">
+                        <button type="submit" class="btn red darken-1 waves-effect waves-light" style="margin-right: 15px;">
+                            <i class="material-icons left">delete_forever</i>Yes - Delete!
+                        </button>
+                        <a href="{% url 'type_detail' object.pk %}" class="btn grey lighten-1 waves-effect waves-light">
+                            <i class="material-icons left">cancel</i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

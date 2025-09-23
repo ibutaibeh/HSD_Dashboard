@@ -1,11 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Survey Attributes List</h1>
+
+<div class="row">
+  <div class="col s12">
+    <h4 class="light-blue-text text-darken-4">
+      <i class="material-icons left">settings</i>Survey Attributes
+    </h4>
+    <p class="grey-text">Manage attributes organized by survey type</p>
+  </div>
+</div>
 
 {% regroup surveyattributes_list by survey_type as grouped_surveyattributes %}
 
 {% for group in grouped_surveyattributes %}
-  <h4>{{ group.grouper.name }} ({{ group.grouper.code }})</h4>
+<div class="section">
+  <div class="row">
+    <div class="col s12">
+      <h5 class="light-blue-text text-darken-2">
+        <i class="material-icons left">category</i>{{ group.grouper.name }}
+        <span class="grey-text">{{ group.grouper.code }}</span>
+      </h5>
+      <div class="divider"></div>
+    </div>
+  </div>
 
   <div class="row">
     {% for attribute in group.list %}
@@ -13,16 +30,44 @@
         <a href="{% url 'attribute_detail' attribute.id %}">
           <div class="card hoverable">
             <div class="card-content">
-              <span class="card-title">{{ attribute.name }}</span>
+              <span class="card-title light-blue-text text-darken-4">
+                <i class="material-icons left">label</i>{{ attribute.name }}
+              </span>
               {% if attribute.unit %}
-                <p><strong>Unit:</strong> {{ attribute.unit }}</p>
+                <p class="grey-text">
+                  <i class="material-icons tiny">straighten</i>
+                  <strong>Unit:</strong> {{ attribute.unit }}
+                </p>
               {% endif %}
+            </div>
+            <div class="card-action">
+              <span class="light-blue-text">
+                View Details <i class="material-icons right tiny">arrow_forward</i>
+              </span>
             </div>
           </div>
         </a>
       </div>
     {% endfor %}
   </div>
+</div>
 {% endfor %}
+
+{% if not grouped_surveyattributes %}
+<div class="row">
+  <div class="col s12">
+    <div class="card-panel grey lighten-4 center-align">
+      <i class="material-icons large grey-text">settings</i>
+      <h5 class="grey-text">No Survey Attributes Found</h5>
+      <p class="grey-text">Create your first survey attribute to get started.</p>
+      {% if user.is_authenticated and user.profile.get_role_display == 'admin' %}
+      <a href="{% url 'attribute_create' %}" class="btn waves-effect waves-light light-blue darken-4">
+        <i class="material-icons left">add</i>Create Survey Attribute
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}

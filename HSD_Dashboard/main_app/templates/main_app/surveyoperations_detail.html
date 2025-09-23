@@ -1,63 +1,124 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Survey Operations Details</h1>
+
 <div class="row">
-  <div class="col s12 m4">
-    <div class="card" style="width: max-content;">
+  <div class="col s12">
+    <h4 class="light-blue-text text-darken-4">
+      <i class="material-icons left">assignment</i>Survey Operations Details
+    </h4>
+    <p class="grey-text">View and manage survey operation information</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12 m5">
+    <div class="card">
       <div class="card-content">
-        <span class="card-title">{{ surveyoperations.survey_name }}</span>
-        <table class="responsive-table striped ">
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Value</th>
-            </tr>
-          </thead>
+        <span class="card-title light-blue-text text-darken-4">
+          <i class="material-icons left">info</i>{{ surveyoperations.survey_name }}
+        </span>
+
+        <div class="section">
+          {% if surveyoperations.get_status_display|lower == 'planned' %}
+            <span class="new badge blue lighten-1" data-badge-caption="">PLANNED</span>
+          {% elif surveyoperations.get_status_display|lower == 'ongoing' %}
+            <span class="new badge green" data-badge-caption="">ONGOING</span>
+          {% elif surveyoperations.get_status_display|lower == 'completed' %}
+            <span class="new badge blue darken-2" data-badge-caption="">COMPLETED</span>
+          {% elif surveyoperations.get_status_display|lower == 'cancelled' %}
+            <span class="new badge red" data-badge-caption="">CANCELLED</span>
+          {% endif %}
+        </div>
+
+        <table class="responsive-table">
           <tbody>
             <tr>
-              <td>Start Date</td>
-              <td>{{ surveyoperations.start_date }}</td>
+              <td><strong>Start Date</strong></td>
+              <td>
+                <i class="material-icons tiny grey-text">date_range</i>
+                {{ surveyoperations.start_date|date:"M d, Y"}}
+              </td>
             </tr>
             <tr>
-              <td>End Date</td>
-              <td>{{ surveyoperations.end_date }}</td>
+              <td><strong>End Date</strong></td>
+              <td>
+                <i class="material-icons tiny grey-text">date_range</i>
+                {{ surveyoperations.end_date|date:"M d, Y" }}
+              </td>
             </tr>
             <tr>
-              <td>Survey Type</td>
-              <td>{{ surveyoperations.survey_type }}</td>
+              <td><strong>Survey Type</strong></td>
+              <td>
+                <i class="material-icons tiny grey-text">category</i>
+                {{ surveyoperations.survey_type }}
+              </td>
             </tr>
             <tr>
-              <td>Status</td>
-              <td>{{ surveyoperations.get_status_display|upper }}</td>
+              <td><strong>Surveyor</strong></td>
+              <td>
+                <i class="material-icons tiny grey-text">person</i>
+                {{ surveyoperations.surveyor }}
+              </td>
             </tr>
             <tr>
-              <td>Surveyor</td>
-              <td>{{ surveyoperations.surveyor }}</td>
+              <td><strong>Data Processor</strong></td>
+              <td>
+                <i class="material-icons tiny grey-text">computer</i>
+                {{ surveyoperations.data_processor}}
+              </td>
             </tr>
             <tr>
-              <td>Data Processor</td>
-              <td>{{ surveyoperations.data_processor }}</td>
+              <td><strong>QC Processor</strong></td>
+              <td>
+                <i class="material-icons tiny grey-text">verified</i>
+                {{ surveyoperations.qc_processor}}
+              </td>
             </tr>
             <tr>
-              <td>QC Processor</td>
-              <td>{{ surveyoperations.qc_processor }}</td>
-            </tr>
-            <tr>
-              <td>Agency</td>
-              <td>{{ surveyoperations.agency }}</td>
+              <td><strong>Agency</strong></td>
+              <td>
+                <i class="material-icons tiny grey-text">business</i>
+                {{ surveyoperations.agency}}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+      
       <div class="card-action">
-        <a href="{% url 'survey_update' surveyoperations.id %}">Edit</a>
-        <a href="{% url 'survey_delete' surveyoperations.id %}">Delete</a>
+        <a href="{% url 'survey_update' surveyoperations.id %}" class="btn waves-effect waves-light light-blue darken-4">
+          <i class="material-icons left">edit</i>Edit
+        </a>
+        <a href="{% url 'survey_delete' surveyoperations.id %}" class="btn waves-effect waves-light red darken-2">
+          <i class="material-icons left">delete</i>Delete
+        </a>
+        <a href="{% url 'survey_index' %}" class="btn grey lighten-1 waves-effect waves-light">
+          <i class="material-icons left">arrow_back</i>Back to List
+        </a>
       </div>
     </div>
   </div>
-  <div class="col s12 m8">
-    <label for="map">Survey Area Location</label>
-    <div id="map"></div>
+
+  <div class="col s12 m7">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title light-blue-text text-darken-4">
+          <i class="material-icons left">map</i>Survey Area Location
+        </span>
+        
+        <div id="map" style="height: 400px; width: 100%; border-radius: 4px; overflow: hidden;">
+        </div>
+        
+        {% if surveyoperations.location %}
+        <div class="section">
+          <h6 class="grey-text">Location Data:</h6>
+          <div class="grey lighten-4" style="padding: 10px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+            {{ surveyoperations.location }}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </div>
 
