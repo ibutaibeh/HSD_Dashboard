@@ -36,7 +36,7 @@
           {% endif %}
           {% endfor %}
           <label for="id_location">Location</label>
-          <textarea name="location" id="id_location" rows="4" cols="50">{{object.location}}</textarea>
+          <textarea name="location" id="id_location" rows="4" cols="50">{% if location4326 %}{{ location4326|safe }}{% endif %}</textarea>
           <input type="submit" value="Submit!" class="btn">
           <a href="{% url 'survey_index' %}" class="btn grey lighten-1 waves-effect waves-light">
             <i class="material-icons left">cancel</i>Cancel
@@ -56,6 +56,14 @@
         
         <div id="map" style="height: 400px; width: 100%; border-radius: 4px; overflow: hidden;">
         </div>
+        {% if location4326 %}
+<script>
+  var existingPolygon = JSON.parse('{{ location4326|escapejs }}');
+  existingPolygon = JSON.parse(JSON.stringify(existingPolygon));
+  L.geoJSON(existingPolygon).addTo(map);
+  //map.fitBounds(L.geoJSON(existingPolygon).getBounds());
+</script>
+{% endif %}
       </div>
     </div>
   </div>

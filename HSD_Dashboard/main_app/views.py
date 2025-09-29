@@ -14,6 +14,12 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import SurveyOperations, SurveyTypes, Agencies, SurveyAttributes, DataImport
 from django.contrib import messages
+import json
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.http import require_POST
+from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.db.models.functions import Transform
+
 
 # Create your views here.
 
@@ -61,14 +67,54 @@ class SurveyOperationsList(LoginRequiredMixin,ListView):
 
 class SurveyOperationsDetail(LoginRequiredMixin,DetailView):
     model=SurveyOperations
+    def get_context_data(self, **kwargs):
+        ctx =super().get_context_data(**kwargs)
+        if self.object.location:
+            obj = (
+                SurveyOperations.objects
+                .filter(pk=self.object.pk)
+                .annotate(geom4326=Transform("location", 4326))
+                .first()
+            )
+            ctx["location4326"] = obj.geom4326.geojson if obj and obj.geom4326 else None
+
+        return ctx
 
 class SurveyOperationsCreate(LoginRequiredMixin,CreateView):
     model=SurveyOperations
     fields= '__all__'
 
+    def form_valid(self, form):
+        geom_str = self.request.POST.get("location")
+        if geom_str:
+            geom = GEOSGeometry(geom_str,srid=4326)
+            geom.transform(32639)
+            form.instance.location=geom
+        return super().form_valid(form)
+
+
 class SurveyOperationsUpdate(LoginRequiredMixin,UpdateView):
     model=SurveyOperations
     fields='__all__'
+    def form_valid(self, form):
+        geom_str = self.request.POST.get("location")
+        if geom_str:
+            geom = GEOSGeometry(geom_str,srid=4326)
+            geom.transform(32639)
+            form.instance.location=geom
+        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        ctx =super().get_context_data(**kwargs)
+        if self.object.location:
+            obj = (
+                SurveyOperations.objects
+                .filter(pk=self.object.pk)
+                .annotate(geom4326=Transform("location", 4326))
+                .first()
+            )
+            ctx["location4326"] = obj.geom4326.geojson if obj and obj.geom4326 else None
+
+        return ctx
 
 class SurveyOperationsDelete(LoginRequiredMixin,DeleteView):
     model=SurveyOperations

@@ -108,6 +108,14 @@
         
         <div id="map" style="height: 400px; width: 100%; border-radius: 4px; overflow: hidden;">
         </div>
+{% if location4326 %}
+<script>
+  var existingPolygon = JSON.parse('{{ location4326|escapejs }}');
+  existingPolygon = JSON.parse(JSON.stringify(existingPolygon));
+  L.geoJSON(existingPolygon).addTo(map);
+  //map.fitBounds(L.geoJSON(existingPolygon).getBounds());
+</script>
+{% endif %}
         
         {% if surveyoperations.location %}
         <div class="section">

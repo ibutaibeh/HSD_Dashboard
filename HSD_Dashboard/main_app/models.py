@@ -82,7 +82,7 @@ class SurveyOperations(models.Model):
     end_date= models.DateField()
     survey_type= models.ForeignKey(SurveyTypes,on_delete=models.CASCADE)
     status= models.CharField(max_length=1,choices=STATUSES)
-    location= models.PolygonField() #srid=32639 issue store and retrieve
+    location= models.PolygonField(srid=32639) #srid=32639 issue store and retrieve
     surveyor= models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="as_surveyor")
     data_processor= models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="as_data_processor")
     qc_processor= models.ForeignKey(User,null=True, on_delete=models.SET_NULL,related_name="as_qc_processor")
